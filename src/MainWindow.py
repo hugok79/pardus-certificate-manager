@@ -47,6 +47,7 @@ class MainWindow:
         self.refresh_button = self.builder.get_object("refresh_button")
         self.menu_button = self.builder.get_object("menu_button")
         self.menu_about = self.builder.get_object("menu_about")
+        self.menu_settings = self.builder.get_object("menu_settings")
 
         # Certificate list
         self.cert_listbox = self.builder.get_object("cert_listbox")
@@ -63,6 +64,7 @@ class MainWindow:
         self.delete_button.connect("clicked", self.on_delete_button_clicked)
         self.refresh_button.connect("clicked", self.on_refresh_button_clicked)
         self.menu_about.connect("clicked", self.on_menu_about_clicked)
+        self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
 
     # ------------------------------------------------------------------ #
     # Signal handlers
@@ -82,3 +84,6 @@ class MainWindow:
     def on_menu_about_clicked(self, button):
         self.about_dialog.run()
         self.about_dialog.hide()
+
+    def on_menu_settings_clicked(self, button):
+        print("Settings button clicked")
