@@ -197,8 +197,7 @@
                     <property name="tooltip-markup" translatable="yes">Search for ceritificates</property>
                     <property name="margin-start">20</property>
                     <property name="margin-end">20</property>
-                    <property name="margin-top">5</property>
-                    <property name="margin-bottom">5</property>
+                    <property name="margin-top">20</property>
                     <property name="primary-icon-name">edit-find-symbolic</property>
                     <property name="primary-icon-activatable">False</property>
                     <property name="primary-icon-sensitive">False</property>

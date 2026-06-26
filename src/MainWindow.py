@@ -7,6 +7,8 @@ from gi.repository import Gtk
 import locale
 from locale import gettext as _
 
+from system.certificate_store import list_all_certificates
+
 # Development: ../locale, Production: /usr/share/locale
 localedir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../locale")
 if not os.path.exists(localedir):
@@ -29,6 +31,7 @@ class MainWindow:
         self.builder.connect_signals(self)
 
         self.define_components()
+        self.load_certificates()
 
         self.window.set_application(application)
         self.window.show_all()
@@ -67,6 +70,32 @@ class MainWindow:
         self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
 
     # ------------------------------------------------------------------ #
+    # Certificate listing
+    # ------------------------------------------------------------------ #
+
+    def load_certificates(self):
+        for row in self.cert_listbox.get_children():
+            self.cert_listbox.remove(row)
+
+        for item in list_all_certificates():
+            self.cert_listbox.add(self.create_certificate_row(item))
+
+        self.cert_listbox.show_all()
+
+    def create_certificate_row(self, item):
+        row = Gtk.ListBoxRow()
+
+        label = Gtk.Label(label=item.name, xalign=0)
+        label.set_margin_top(6)
+        label.set_margin_bottom(6)
+        label.set_margin_start(10)
+        label.set_margin_end(10)
+
+        row.add(label)
+        row.cert_item = item
+        return row
+
+    # ------------------------------------------------------------------ #
     # Signal handlers
     # ------------------------------------------------------------------ #
 
@@ -78,8 +107,7 @@ class MainWindow:
         print("Delete button clicked")
 
     def on_refresh_button_clicked(self, button):
-        # reload cert list
-        print("Refresh button clicked")
+        self.load_certificates()
 
     def on_menu_about_clicked(self, button):
         self.about_dialog.run()
