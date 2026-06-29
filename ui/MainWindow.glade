@@ -8,6 +8,7 @@
     <property name="window-position">center-on-parent</property>
     <property name="type-hint">dialog</property>
     <property name="program-name">Pardus Certificate Manager</property>
+    <property name="version">0.1.0</property>
     <property name="copyright" translatable="yes">© TÜBİTAK BİLGEM</property>
     <property name="comments" translatable="yes">System certificate manager for Pardus</property>
     <property name="website">https://github.com/pardus/pardus-certificate-manager</property>
@@ -18,7 +19,6 @@
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
         <child internal-child="action_area">
           <object class="GtkButtonBox">
             <property name="can-focus">False</property>
@@ -658,7 +658,6 @@
                       <object class="GtkListBox" id="cert_listbox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="selection-mode">single</property>
                       </object>
                     </child>
                   </object>
@@ -818,7 +817,6 @@
                       <object class="GtkListBox" id="browser_listbox">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="selection-mode">single</property>
                       </object>
                     </child>
                   </object>
