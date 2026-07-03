@@ -11,6 +11,7 @@ from pathlib import Path
 
 from system.certificate_store import list_all_certificates, load_certificate
 from system.certificate_info import cert_info
+from browsers import store as browser_store
 
 # Development: ../locale, Production: /usr/share/locale
 localedir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../locale")
@@ -35,6 +36,7 @@ class MainWindow:
 
         self.define_components()
         self.load_certificates()
+        self.load_browser_profiles()
 
         self.window.set_application(application)
         self.window.show_all()
@@ -85,12 +87,27 @@ class MainWindow:
             "status": self.builder.get_object("details_status_value"),
         }
 
-        # Signals
+        # System page signals
         self.add_button.connect("clicked", self.on_add_button_clicked)
         self.delete_button.connect("clicked", self.on_delete_button_clicked)
         self.refresh_button.connect("clicked", self.on_refresh_button_clicked)
         self.menu_about.connect("clicked", self.on_menu_about_clicked)
         self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
+
+        # Browser page elements & signals
+        self.browser_combo = self.builder.get_object("browser_combo")
+        self.browser_listbox = self.builder.get_object("browser_listbox")
+        self.browser_import_button = self.builder.get_object("browser_import_button")
+        self.browser_export_button = self.builder.get_object("browser_export_button")
+        self.browser_delete_button = self.builder.get_object("browser_delete_button")
+        self.browser_profiles = []
+        self.selected_browser_cert = None
+
+        self.browser_combo.connect("changed", self.on_browser_profile_changed)
+        self.browser_listbox.connect("row-selected", self.on_browser_cert_selected)
+        self.browser_import_button.connect("clicked", self.on_browser_import_clicked)
+        self.browser_export_button.connect("clicked", self.on_browser_export_clicked)
+        self.browser_delete_button.connect("clicked", self.on_browser_delete_clicked)
 
     # ------------------------------------------------------------------ #
     # Certificate listing
@@ -104,6 +121,9 @@ class MainWindow:
             self.cert_listbox.add(self.create_certificate_row(item))
 
         self.cert_listbox.show_all()
+
+    def load_browser_profiles(self):
+        pass
 
     def create_certificate_row(self, item):
         row = Gtk.ListBoxRow()
@@ -204,8 +224,28 @@ class MainWindow:
     def on_delete_button_clicked(self, button):
         print("Delete button clicked")
 
+    # BROWSER FUNCTIONS
+
+    def on_browser_profile_changed(self, combo):
+        pass
+
+    def on_browser_cert_selected(self, listbox, row):
+        pass
+
+    def on_browser_import_clicked(self, button):
+        pass
+
+    def on_browser_export_clicked(self, button):
+        pass
+
+
+    def on_browser_delete_clicked(self, button):
+        pass
+
+
     def on_refresh_button_clicked(self, button):
         self.load_certificates()
+        self.load_browser_profiles()
 
     def on_menu_about_clicked(self, button):
         self.about_dialog.run()
