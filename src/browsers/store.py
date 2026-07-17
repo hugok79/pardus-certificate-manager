@@ -10,6 +10,7 @@ Only the db *location* differs:
 """
 
 import configparser
+import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -61,3 +62,63 @@ def list_chrome_profiles():
 
 def list_profiles():
     return list_firefox_profiles() + list_chrome_profiles()
+
+
+def _run_certutil(args):
+    try:
+        return subprocess.run(
+            ["certutil", *args],
+            capture_output=True, text=True, check=False,
+        )
+    except FileNotFoundError:
+        return None
+
+
+def list_certificates(profile):
+    """
+    List certificate nicknames from profile db
+    """
+    result = _run_certutil(["-L", "-d", f"sql:{profile.db_path}"])
+    if result.returncode != 0:
+        return []
+
+    certs = []
+    for line in result.stdout.splitlines():
+        line = line.rstrip()
+        if not line or line.startswith("Certificate Nickname") or set[str](line) == {"-"}:
+            continue
+        nickname = line.rsplit(None, 1)[0].strip()
+        if nickname:
+            certs.append(BrowserCertificate(nickname, profile))
+    return certs
+
+
+def export_certificate_pem(profile, nickname):
+    """
+    Return PEM text for a certificate by nickname
+    """
+    result = _run_certutil(
+        ["-L", "-n", nickname, "-a", "-d", f"sql:{profile.db_path}"]
+    )
+    if result.returncode != 0:
+        return None
+    print(result.stdout)
+    return result.stdout
+
+
+def install_certificate(profile, pem_path, nickname, trust="C,,"):
+    """
+    Install a certificate into profile db
+    """
+    result = _run_certutil(
+        ["-A", "-n", nickname, "-t", trust, "-i",
+         str(pem_path), "-d", f"sql:{profile.db_path}"],
+    )
+    return result.returncode == 0
+
+
+def delete_certificate(profile, nickname):
+    result = _run_certutil(
+        ["-D", "-n", nickname, "-d", f"sql:{profile.db_path}"]
+    )
+    return result.returncode == 0
