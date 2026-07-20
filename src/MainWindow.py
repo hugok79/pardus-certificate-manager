@@ -123,7 +123,12 @@ class MainWindow:
         self.cert_listbox.show_all()
 
     def load_browser_profiles(self):
-        pass
+        self.browser_profiles = browser_store.list_profiles()
+        self.browser_combo.remove_all()
+        for profile in self.browser_profiles:
+            self.browser_combo.append_text(profile.label)
+        if self.browser_profiles:
+            self.browser_combo.set_active(0)
 
     def create_certificate_row(self, item):
         row = Gtk.ListBoxRow()
@@ -180,12 +185,7 @@ class MainWindow:
 
         response = self.cert_details_dialog.run()
         self.cert_details_dialog.hide()
-
-        if response == Gtk.ResponseType.OK:
-            self.show_error(
-                _("Not implemented yet.."),
-                _("TESTINGGG"),
-            )
+        return response == Gtk.ResponseType.OK
 
     def set_warnings(self, info):
         messages = []
@@ -224,24 +224,72 @@ class MainWindow:
     def on_delete_button_clicked(self, button):
         print("Delete button clicked")
 
-    # BROWSER FUNCTIONS
+    # ------------------------------------------------------------------ #
+    # Browser Page Functions
+    # ------------------------------------------------------------------ #
 
     def on_browser_profile_changed(self, combo):
-        pass
+        index = combo.get_active()
+        if index < 0 or index >= len(self.browser_profiles):
+            return
+        profile = self.browser_profiles[index]
+
+        for row in self.browser_listbox.get_children():
+            self.browser_listbox.remove(row)
+
+        for cert in browser_store.list_certificates(profile):
+            row = Gtk.ListBoxRow()
+            label = Gtk.Label(label=cert.nickname, xalign=0)
+            label.set_margin_top(6)
+            label.set_margin_bottom(6)
+            label.set_margin_start(10)
+            label.set_margin_end(10)
+            row.add(label)
+            row.browser_cert = cert
+            self.browser_listbox.add(row)
+
+        self.browser_listbox.show_all()
 
     def on_browser_cert_selected(self, listbox, row):
-        pass
+        self.selected_browser_cert = getattr(row, "browser_cert", None) if row else None
+        has_selection = self.selected_browser_cert is not None
+        self.browser_export_button.set_sensitive(has_selection)
+        self.browser_delete_button.set_sensitive(has_selection)
 
     def on_browser_import_clicked(self, button):
-        pass
+        index = self.browser_combo.get_active()
+        if index < 0:
+            return
+        profile = self.browser_profiles[index]
+
+        path = self.run_import_chooser()
+        if path is None:
+            return
+
+        nickname = path.stem
+        if browser_store.install_certificate(profile, path, nickname):
+            self.on_browser_profile_changed(self.browser_combo)
+        else:
+            self.show_error(_("Import failed"), _("Could not import '{}'.").format(path.name))
 
     def on_browser_export_clicked(self, button):
-        pass
-
+        if not self.selected_browser_cert:
+            return
+        pem = browser_store.export_certificate_pem(
+            self.selected_browser_cert.profile, self.selected_browser_cert.nickname
+        )
+        if pem is None:
+            self.show_error(_("Export failed"), _("Could not read the certificate."))
+            return
 
     def on_browser_delete_clicked(self, button):
-        pass
-
+        if not self.selected_browser_cert:
+            return
+        cert = self.selected_browser_cert
+        if browser_store.delete_certificate(cert.profile, cert.nickname):
+            self.on_browser_profile_changed(self.browser_combo)
+        else:
+            self.show_error(_("Delete failed"), _("Could not delete '{}'.").format(cert.nickname))
 
     def on_refresh_button_clicked(self, button):
         self.load_certificates()
