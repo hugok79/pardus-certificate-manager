@@ -74,18 +74,29 @@ def _run_certutil(args):
         return None
 
 
+def _ran_successfully(result):
+    return result is not None and result.returncode == 0
+
+
 def list_certificates(profile):
     """
     List certificate nicknames from profile db
     """
     result = _run_certutil(["-L", "-d", f"sql:{profile.db_path}"])
-    if result.returncode != 0:
+    if not _ran_successfully(result):
         return []
 
     certs = []
     for line in result.stdout.splitlines():
-        line = line.rstrip()
-        if not line or line.startswith("Certificate Nickname") or set[str](line) == {"-"}:
+        stripped = line.strip()
+        # Header ("Certificate Nickname...", "SSL,S/MIME,JAR/XPI") and
+        # separator ("-----") lines are not certificates, skip
+        if (
+            not stripped
+            or stripped.startswith("Certificate Nickname")
+            or stripped.startswith("SSL,")
+            or set(stripped) == {"-"}
+        ):
             continue
         nickname = line.rsplit(None, 1)[0].strip()
         if nickname:
@@ -100,9 +111,8 @@ def export_certificate_pem(profile, nickname):
     result = _run_certutil(
         ["-L", "-n", nickname, "-a", "-d", f"sql:{profile.db_path}"]
     )
-    if result.returncode != 0:
+    if not _ran_successfully(result):
         return None
-    print(result.stdout)
     return result.stdout
 
 
@@ -114,11 +124,11 @@ def install_certificate(profile, pem_path, nickname, trust="C,,"):
         ["-A", "-n", nickname, "-t", trust, "-i",
          str(pem_path), "-d", f"sql:{profile.db_path}"],
     )
-    return result.returncode == 0
+    return _ran_successfully(result)
 
 
 def delete_certificate(profile, nickname):
     result = _run_certutil(
         ["-D", "-n", nickname, "-d", f"sql:{profile.db_path}"]
     )
-    return result.returncode == 0
+    return _ran_successfully(result)

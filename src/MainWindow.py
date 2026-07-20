@@ -160,7 +160,12 @@ class MainWindow:
             )
             return
 
-        self.show_certificate_details(path, cert)
+        if self.show_certificate_details(path, cert):
+            self.show_error(
+                _("Not implemented yet"),
+                _("Installing into the system trust store will be added "
+                  "in the next step."),
+            )
 
     def run_import_chooser(self):
         response = self.import_chooser.run()
@@ -221,6 +226,19 @@ class MainWindow:
         dialog.run()
         dialog.destroy()
 
+    def confirm(self, title, message):
+        dialog = Gtk.MessageDialog(
+            transient_for=self.window,
+            modal=True,
+            message_type=Gtk.MessageType.QUESTION,
+            buttons=Gtk.ButtonsType.YES_NO,
+            text=title,
+        )
+        dialog.format_secondary_text(message)
+        response = dialog.run()
+        dialog.destroy()
+        return response == Gtk.ResponseType.YES
+
     def on_delete_button_clicked(self, button):
         print("Delete button clicked")
 
@@ -229,13 +247,18 @@ class MainWindow:
     # ------------------------------------------------------------------ #
 
     def on_browser_profile_changed(self, combo):
+        for row in self.browser_listbox.get_children():
+            self.browser_listbox.remove(row)
+
+        # Rows are gone, reset old selection
+        self.selected_browser_cert = None
+        self.browser_export_button.set_sensitive(False)
+        self.browser_delete_button.set_sensitive(False)
+
         index = combo.get_active()
         if index < 0 or index >= len(self.browser_profiles):
             return
         profile = self.browser_profiles[index]
-
-        for row in self.browser_listbox.get_children():
-            self.browser_listbox.remove(row)
 
         for cert in browser_store.list_certificates(profile):
             row = Gtk.ListBoxRow()
@@ -258,7 +281,7 @@ class MainWindow:
 
     def on_browser_import_clicked(self, button):
         index = self.browser_combo.get_active()
-        if index < 0:
+        if index < 0 or index >= len(self.browser_profiles):
             return
         profile = self.browser_profiles[index]
 
@@ -266,30 +289,97 @@ class MainWindow:
         if path is None:
             return
 
+        cert = load_certificate(path)
+        if cert is None:
+            self.show_error(
+                _("Could not read certificate"),
+                _("'{}' is not a valid PEM certificate.").format(path.name),
+            )
+            return
+
+        if not cert_info(cert)["is_ca"]:
+            self.show_error(
+                _("Not a CA certificate"),
+                _("Only CA certificates can be added to the browser "
+                  "trust store."),
+            )
+            return
+
+        if not self.show_certificate_details(path, cert):
+            return
+
         nickname = path.stem
+        existing = {c.nickname for c in browser_store.list_certificates(profile)}
+        if nickname in existing:
+            self.show_error(
+                _("Certificate already exists"),
+                _("'{}' is already in this profile.").format(nickname),
+            )
+            return
+
         if browser_store.install_certificate(profile, path, nickname):
             self.on_browser_profile_changed(self.browser_combo)
         else:
-            self.show_error(_("Import failed"), _("Could not import '{}'.").format(path.name))
+            self.show_error(
+                _("Import failed"),
+                _("Could not import '{}'.").format(path.name),
+            )
 
     def on_browser_export_clicked(self, button):
         if not self.selected_browser_cert:
             return
-        pem = browser_store.export_certificate_pem(
-            self.selected_browser_cert.profile, self.selected_browser_cert.nickname
-        )
+        cert = self.selected_browser_cert
+        pem = browser_store.export_certificate_pem(cert.profile, cert.nickname)
         if pem is None:
             self.show_error(_("Export failed"), _("Could not read the certificate."))
             return
+
+        dialog = Gtk.FileChooserDialog(
+            title=_("Export Certificate"),
+            transient_for=self.window,
+            action=Gtk.FileChooserAction.SAVE,
+        )
+        dialog.add_buttons(
+            _("Cancel"), Gtk.ResponseType.CANCEL,
+            _("Save"), Gtk.ResponseType.OK,
+        )
+        dialog.set_do_overwrite_confirmation(True)
+        # Nicknames may contain '/', which is invalid in file names
+        dialog.set_current_name(cert.nickname.replace("/", "_") + ".pem")
+
+        response = dialog.run()
+        filename = dialog.get_filename()
+        dialog.destroy()
+
+        if response != Gtk.ResponseType.OK or not filename:
+            return
+
+        try:
+            Path(filename).write_text(pem)
+        except OSError as error:
+            self.show_error(_("Export failed"), str(error))
 
     def on_browser_delete_clicked(self, button):
         if not self.selected_browser_cert:
             return
         cert = self.selected_browser_cert
+
+        if not self.confirm(
+            _("Delete certificate?"),
+            _("'{}' will be removed from {}. Websites signed by it will "
+              "no longer be trusted by this browser.").format(
+                cert.nickname, cert.profile.label
+            ),
+        ):
+            return
+
         if browser_store.delete_certificate(cert.profile, cert.nickname):
             self.on_browser_profile_changed(self.browser_combo)
         else:
-            self.show_error(_("Delete failed"), _("Could not delete '{}'.").format(cert.nickname))
+            self.show_error(
+                _("Delete failed"),
+                _("Could not delete '{}'.").format(cert.nickname),
+            )
 
     def on_refresh_button_clicked(self, button):
         self.load_certificates()
