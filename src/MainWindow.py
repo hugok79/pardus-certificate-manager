@@ -239,6 +239,18 @@ class MainWindow:
         dialog.destroy()
         return response == Gtk.ResponseType.YES
 
+    def show_info(self, title, message):
+        dialog = Gtk.MessageDialog(
+            transient_for=self.window,
+            modal=True,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.CLOSE,
+            text=title,
+        )
+        dialog.format_secondary_text(message)
+        dialog.run()
+        dialog.destroy()
+
     def on_delete_button_clicked(self, button):
         print("Delete button clicked")
 
@@ -319,6 +331,10 @@ class MainWindow:
 
         if browser_store.install_certificate(profile, path, nickname):
             self.on_browser_profile_changed(self.browser_combo)
+            self.show_info(
+                _("Certificate added"),
+                _("'{}' was added to {}.").format(nickname, profile.label),
+            )
         else:
             self.show_error(
                 _("Import failed"),
@@ -358,6 +374,12 @@ class MainWindow:
             Path(filename).write_text(pem)
         except OSError as error:
             self.show_error(_("Export failed"), str(error))
+            return
+
+        self.show_info(
+            _("Certificate exported"),
+            _("Saved to {}.").format(filename),
+        )
 
     def on_browser_delete_clicked(self, button):
         if not self.selected_browser_cert:
