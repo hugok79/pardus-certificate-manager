@@ -9,9 +9,8 @@ from locale import gettext as _
 
 from pathlib import Path
 
-from system.certificate_store import list_all_certificates, load_certificate
-from system.certificate_info import cert_info
-from browsers import store as browser_store
+from system import certificate_info, system_cert_store
+from browsers import browser_cert_store
 
 # Development: ../locale, Production: /usr/share/locale
 localedir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../locale")
@@ -88,8 +87,10 @@ class MainWindow:
         }
 
         # System page signals
+        self.selected_system_item = None
         self.add_button.connect("clicked", self.on_add_button_clicked)
         self.delete_button.connect("clicked", self.on_delete_button_clicked)
+        self.cert_listbox.connect("row-selected", self.on_system_cert_selected)
         self.refresh_button.connect("clicked", self.on_refresh_button_clicked)
         self.menu_about.connect("clicked", self.on_menu_about_clicked)
         self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
@@ -117,13 +118,16 @@ class MainWindow:
         for row in self.cert_listbox.get_children():
             self.cert_listbox.remove(row)
 
-        for item in list_all_certificates():
+        self.selected_system_item = None
+        self.delete_button.set_sensitive(False)
+
+        for item in system_cert_store.list_all_certificates():
             self.cert_listbox.add(self.create_certificate_row(item))
 
         self.cert_listbox.show_all()
 
     def load_browser_profiles(self):
-        self.browser_profiles = browser_store.list_profiles()
+        self.browser_profiles = browser_cert_store.list_profiles()
         self.browser_combo.remove_all()
         for profile in self.browser_profiles:
             self.browser_combo.append_text(profile.label)
@@ -152,7 +156,7 @@ class MainWindow:
         if path is None:
             return
 
-        cert = load_certificate(path)
+        cert = system_cert_store.load_certificate(path)
         if cert is None:
             self.show_error(
                 _("Could not read certificate"),
@@ -160,11 +164,21 @@ class MainWindow:
             )
             return
 
-        if self.show_certificate_details(path, cert):
+        if not self.show_certificate_details(path, cert):
+            return
+
+        if system_cert_store.install_certificate(path):
+            self.load_certificates()
+            self.show_info(
+                _("Certificate installed"),
+                _("'{}' was added to the system trust store.").format(
+                    path.name
+                ),
+            )
+        else:
             self.show_error(
-                _("Not implemented yet"),
-                _("Installing into the system trust store will be added "
-                  "in the next step."),
+                _("Install failed"),
+                _("Could not install '{}'.").format(path.name),
             )
 
     def run_import_chooser(self):
@@ -176,7 +190,7 @@ class MainWindow:
         return None
 
     def show_certificate_details(self, path, cert):
-        info = cert_info(cert)
+        info = certificate_info.cert_info(cert)
         self.details_values["file"].set_text(path.name)
         self.details_values["subject"].set_text(info["subject"])
         self.details_values["issuer"].set_text(info["issuer"])
@@ -251,8 +265,36 @@ class MainWindow:
         dialog.run()
         dialog.destroy()
 
+    def on_system_cert_selected(self, listbox, row):
+        self.selected_system_item = getattr(row, "cert_item", None) if row else None
+        # Only user added certs can be removed
+        removable = (
+            self.selected_system_item is not None
+            and self.selected_system_item.source == "user"
+        )
+        self.delete_button.set_sensitive(removable)
+
     def on_delete_button_clicked(self, button):
-        print("Delete button clicked")
+        item = self.selected_system_item
+        if item is None or item.source != "user":
+            return
+
+        if not self.confirm(
+            _("Delete certificate?"),
+            _("'{}' will be removed from the system trust store.").format(
+                item.name
+            ),
+        ):
+            return
+
+        if system_cert_store.remove_certificate(item.removable_name):
+            self.load_certificates()
+            self.delete_button.set_sensitive(False)
+        else:
+            self.show_error(
+                _("Delete failed"),
+                _("Could not delete '{}'.").format(item.name),
+            )
 
     # ------------------------------------------------------------------ #
     # Browser Page Functions
@@ -272,7 +314,7 @@ class MainWindow:
             return
         profile = self.browser_profiles[index]
 
-        for cert in browser_store.list_certificates(profile):
+        for cert in browser_cert_store.list_certificates(profile):
             row = Gtk.ListBoxRow()
             label = Gtk.Label(label=cert.nickname, xalign=0)
             label.set_margin_top(6)
@@ -301,7 +343,7 @@ class MainWindow:
         if path is None:
             return
 
-        cert = load_certificate(path)
+        cert = system_cert_store.load_certificate(path)
         if cert is None:
             self.show_error(
                 _("Could not read certificate"),
@@ -309,7 +351,7 @@ class MainWindow:
             )
             return
 
-        if not cert_info(cert)["is_ca"]:
+        if not certificate_info.cert_info(cert)["is_ca"]:
             self.show_error(
                 _("Not a CA certificate"),
                 _("Only CA certificates can be added to the browser "
@@ -321,7 +363,7 @@ class MainWindow:
             return
 
         nickname = path.stem
-        existing = {c.nickname for c in browser_store.list_certificates(profile)}
+        existing = {c.nickname for c in browser_cert_store.list_certificates(profile)}
         if nickname in existing:
             self.show_error(
                 _("Certificate already exists"),
@@ -329,7 +371,7 @@ class MainWindow:
             )
             return
 
-        if browser_store.install_certificate(profile, path, nickname):
+        if browser_cert_store.install_certificate(profile, path, nickname):
             self.on_browser_profile_changed(self.browser_combo)
             self.show_info(
                 _("Certificate added"),
@@ -345,7 +387,7 @@ class MainWindow:
         if not self.selected_browser_cert:
             return
         cert = self.selected_browser_cert
-        pem = browser_store.export_certificate_pem(cert.profile, cert.nickname)
+        pem = browser_cert_store.export_certificate_pem(cert.profile, cert.nickname)
         if pem is None:
             self.show_error(_("Export failed"), _("Could not read the certificate."))
             return
@@ -395,7 +437,7 @@ class MainWindow:
         ):
             return
 
-        if browser_store.delete_certificate(cert.profile, cert.nickname):
+        if browser_cert_store.delete_certificate(cert.profile, cert.nickname):
             self.on_browser_profile_changed(self.browser_combo)
         else:
             self.show_error(
