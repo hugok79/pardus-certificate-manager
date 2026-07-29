@@ -1,5 +1,5 @@
 pardus-certificate-manager (0.1.0) unstable; urgency=medium
 
-  * Initial release.
+  * Add translations - Add TR translation for the app - #PARDUS-1740
 
- -- Emel Öztürk <emel.ozturk@pardus.org.tr>
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Wed, 29 Jul 2026 16:34:08 +0300
