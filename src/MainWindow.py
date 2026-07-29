@@ -25,6 +25,7 @@ _ = locale.gettext
 class MainWindow:
     def __init__(self, application):
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain("pardus-certificate-manager")
 
         # Import UI file
         glade_file = (

@@ -1,0 +1,283 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Emel Öztürk <emel.ozturk@pardus.org.tr>, 2026.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-29 13:53+0300\n"
+"PO-Revision-Date: 2026-07-29 14:32+0300\n"
+"Last-Translator: Emel Öztürk <emel.ozturk@pardus.org.tr>\n"
+"Language-Team: Turkish <dev@pardus.org.tr>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"X-Generator: Gtranslator 48.0\n"
+
+#: ui/MainWindow.glade:13
+msgid "System certificate manager for Pardus"
+msgstr "Pardus için sistem sertifika yöneticisi"
+
+#: ui/MainWindow.glade:47
+msgid "Certificate"
+msgstr "Sertifika"
+
+#: ui/MainWindow.glade:66 ui/MainWindow.glade:444 src/MainWindow.py:401
+msgid "Cancel"
+msgstr "İptal"
+
+#: ui/MainWindow.glade:80
+msgid "Install"
+msgstr "Kur"
+
+#: ui/MainWindow.glade:125
+msgid "File"
+msgstr "Dosya"
+
+#: ui/MainWindow.glade:154
+msgid "Subject"
+msgstr "Konu"
+
+#: ui/MainWindow.glade:183
+msgid "Issuer"
+msgstr "Veren"
+
+#: ui/MainWindow.glade:212
+msgid "Valid from"
+msgstr "Geçerlilik başlangıcı"
+
+#: ui/MainWindow.glade:240
+msgid "Valid until"
+msgstr "Geçerlilik bitişi"
+
+#: ui/MainWindow.glade:268
+msgid "Serial"
+msgstr "Seri no"
+
+#: ui/MainWindow.glade:297
+msgid "Fingerprint (SHA-256)"
+msgstr "Parmak izi (SHA-256)"
+
+#: ui/MainWindow.glade:326
+msgid "CA certificate"
+msgstr "CA sertifikası"
+
+#: ui/MainWindow.glade:354
+msgid "Status"
+msgstr "Durum"
+
+#: ui/MainWindow.glade:428
+msgid "Select Certificate"
+msgstr "Sertifika Seç"
+
+#: ui/MainWindow.glade:458
+msgid "Open"
+msgstr "Aç"
+
+#: ui/MainWindow.glade:539
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: ui/MainWindow.glade:593
+msgid "About"
+msgstr "Hakkında"
+
+#: ui/MainWindow.glade:615
+msgid "Certificate Manager"
+msgstr "Sertifika Yöneticisi"
+
+#: ui/MainWindow.glade:632
+msgid "Search certificates"
+msgstr "Sertifikalarda ara"
+
+#: ui/MainWindow.glade:681
+msgid "Add"
+msgstr "Ekle"
+
+#: ui/MainWindow.glade:685
+msgid "Import a certificate"
+msgstr "Sertifikayı içe aktar"
+
+#: ui/MainWindow.glade:698 ui/MainWindow.glade:872
+msgid "Delete"
+msgstr "Sil"
+
+#: ui/MainWindow.glade:703
+msgid "Delete selected certificate"
+msgstr "Seçili sertifikayı sil"
+
+#: ui/MainWindow.glade:745
+msgid "System"
+msgstr "Sistem"
+
+#: ui/MainWindow.glade:776
+msgid "Profile"
+msgstr "Profil"
+
+#: ui/MainWindow.glade:840
+msgid "Import"
+msgstr "İçe Aktar"
+
+#: ui/MainWindow.glade:844
+msgid "Import a certificate into the selected profile"
+msgstr "Seçili profile sertifikayı içe aktar"
+
+#: ui/MainWindow.glade:857
+msgid "Export"
+msgstr "Dışa Aktar"
+
+#: ui/MainWindow.glade:862
+msgid "Export the selected certificate to a file"
+msgstr "Seçili sertifikayı dosyaya aktar"
+
+#: ui/MainWindow.glade:877
+msgid "Delete the selected certificate from the profile"
+msgstr "Seçili sertifikayı profilden sil"
+
+#: ui/MainWindow.glade:922
+msgid "Browser"
+msgstr "Tarayıcı"
+
+#: ui/MainWindow.glade:942
+msgid "Pardus Certificate Manager"
+msgstr "Pardus Sertifika Yöneticisi"
+
+#: ui/MainWindow.glade:967
+msgid "Refresh list"
+msgstr "Listeyi yenile"
+
+#: src/MainWindow.py:162 src/MainWindow.py:349
+msgid "Could not read certificate"
+msgstr "Sertifika okunamadı"
+
+#: src/MainWindow.py:163 src/MainWindow.py:350
+msgid "'{}' is not a valid PEM certificate."
+msgstr "'{}' geçerli bir PEM sertifikası değil."
+
+#: src/MainWindow.py:173
+msgid "Certificate installed"
+msgstr "Sertifika kuruldu"
+
+#: src/MainWindow.py:174
+msgid "'{}' was added to the system trust store."
+msgstr "'{}' sistem güven deposuna eklendi."
+
+#: src/MainWindow.py:180
+msgid "Install failed"
+msgstr "Kurulum başarısız"
+
+#: src/MainWindow.py:181
+msgid "Could not install '{}'."
+msgstr "'{}' kurulamadı."
+
+#: src/MainWindow.py:201
+msgid "Yes"
+msgstr "Evet"
+
+#: src/MainWindow.py:201
+msgid "No"
+msgstr "Hayır"
+
+#: src/MainWindow.py:212
+msgid "This certificate has expired."
+msgstr "Bu sertifikanın süresi dolmuş."
+
+#: src/MainWindow.py:214
+msgid "This certificate is not valid yet."
+msgstr "Bu sertifika henüz geçerli değil."
+
+#: src/MainWindow.py:217
+msgid ""
+"Self-signed root CA. Trusting it means trusting every certificate it signs."
+msgstr ""
+"Kendi imzalı kök CA. Buna güvenmek, imzaladığı tüm sertifikalara güvenmek "
+"demektir."
+
+#: src/MainWindow.py:221
+msgid "This is not a CA certificate."
+msgstr "Bu bir CA sertifikası değil."
+
+#: src/MainWindow.py:283 src/MainWindow.py:432
+msgid "Delete certificate?"
+msgstr "Sertifika silinsin mi?"
+
+#: src/MainWindow.py:284
+msgid "'{}' will be removed from the system trust store."
+msgstr "'{}' sistem güven deposundan kaldırılacak."
+
+#: src/MainWindow.py:295 src/MainWindow.py:444
+msgid "Delete failed"
+msgstr "Silme başarısız"
+
+#: src/MainWindow.py:296 src/MainWindow.py:445
+msgid "Could not delete '{}'."
+msgstr "'{}' silinemedi."
+
+#: src/MainWindow.py:356
+msgid "Not a CA certificate"
+msgstr "CA sertifikası değil"
+
+#: src/MainWindow.py:357
+msgid "Only CA certificates can be added to the browser trust store."
+msgstr "Tarayıcı güven deposuna yalnızca CA sertifikaları eklenebilir."
+
+#: src/MainWindow.py:369
+msgid "Certificate already exists"
+msgstr "Sertifika zaten var"
+
+#: src/MainWindow.py:370
+msgid "'{}' is already in this profile."
+msgstr "'{}' bu profilde zaten mevcut."
+
+#: src/MainWindow.py:377
+msgid "Certificate added"
+msgstr "Sertifika eklendi"
+
+#: src/MainWindow.py:378
+msgid "'{}' was added to {}."
+msgstr "'{}', {} profiline eklendi."
+
+#: src/MainWindow.py:382
+msgid "Import failed"
+msgstr "İçe aktarma başarısız"
+
+#: src/MainWindow.py:383
+msgid "Could not import '{}'."
+msgstr "'{}' içe aktarılamadı."
+
+#: src/MainWindow.py:392 src/MainWindow.py:418
+msgid "Export failed"
+msgstr "Dışa aktarma başarısız"
+
+#: src/MainWindow.py:392
+msgid "Could not read the certificate."
+msgstr "Sertifika okunamadı."
+
+#: src/MainWindow.py:396
+msgid "Export Certificate"
+msgstr "Sertifikayı Dışa Aktar"
+
+#: src/MainWindow.py:402
+msgid "Save"
+msgstr "Kaydet"
+
+#: src/MainWindow.py:422
+msgid "Certificate exported"
+msgstr "Sertifika dışa aktarıldı"
+
+#: src/MainWindow.py:423
+msgid "Saved to {}."
+msgstr "{} konumuna kaydedildi."
+
+#: src/MainWindow.py:433
+msgid ""
+"'{}' will be removed from {}. Websites signed by it will no longer be "
+"trusted by this browser."
+msgstr ""
+"'{}', {} üzerinden kaldırılacak. Bu sertifikayla imzalanmış siteler bu "
+"tarayıcıda artık güvenilir olmayacak."
