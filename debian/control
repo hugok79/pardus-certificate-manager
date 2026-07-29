@@ -1,0 +1,23 @@
+Source: pardus-certificate-manager
+Section: x11
+Priority: optional
+Maintainer: Emel Öztürk <emel.ozturk@pardus.org.tr>
+Build-Depends: debhelper-compat (= 13), dh-python, python3-all, python3-setuptools
+Standards-Version: 4.6.1
+Homepage: https://github.com/pardus/pardus-certificate-manager
+
+Package: pardus-certificate-manager
+Architecture: all
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         gir1.2-glib-2.0,
+         gir1.2-gtk-3.0,
+         python3-gi,
+         python3-cryptography,
+         ca-certificates,
+         libnss3-tools,
+         pkexec
+Description: Graphical tool for managing trusted certificates on Linux
+ GTK-based application for managing the system trust store and
+ browser certificate databases on Debian based systems. Allows
+ inspecting, importing, exporting and removing CA certificates.
