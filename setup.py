@@ -71,6 +71,9 @@ data_files = [
     ("/usr/share/pardus/pardus-certificate-manager/data",
         ["data/pardus-certificate-manager.svg"]
     ),
+    ("/usr/share/polkit-1/actions",
+        ["data/tr.org.pardus.pkexec.pardus-certificate-manager.policy"]
+    ),
     ("/usr/share/icons/hicolor/scalable/apps/",
         ["data/pardus-certificate-manager.svg"]
     )

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+
+  <vendor>Pardus</vendor>
+  <vendor_url>http://www.pardus.org.tr/</vendor_url>
+
+  <action id="tr.org.pardus.certificate-manager.admin">
+    <description>Modify the system certificate trust store</description>
+    <description xml:lang="tr">Sistem sertifika güven deposunu değiştir</description>
+    <message>Authentication is required to manage system CA certificates.</message>
+    <message xml:lang="tr">Sistem CA sertifikalarını yönetmek için kimlik doğrulaması gerekiyor.</message>
+    <icon_name>application-certificate</icon_name>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>no</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/share/pardus/pardus-certificate-manager/src/system/system_cert_admin.py</annotate>
+  </action>
+
+</policyconfig>
