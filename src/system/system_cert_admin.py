@@ -10,6 +10,7 @@ refreshes the trust store.
     system_cert_admin.py remove  <name.crt>
 """
 
+import os
 import shutil
 import subprocess
 import sys
@@ -29,7 +30,9 @@ def main(argv):
     # system_cert_admin.py - install - source.pem - destination.crt
     if len(argv) == 4 and argv[1] == "install":
         LOCAL_CA_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(argv[2], _destination(argv[3]))
+        dest = _destination(argv[3])
+        shutil.copy(argv[2], dest)
+        os.chmod(dest, 0o644)
         subprocess.run(["update-ca-certificates"], check=True)
     # system_cert_admin.py - remove - destination.crt
     elif len(argv) == 3 and argv[1] == "remove":
