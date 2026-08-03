@@ -18,7 +18,7 @@
       <allow_inactive>no</allow_inactive>
       <allow_active>auth_admin</allow_active>
     </defaults>
-    <annotate key="org.freedesktop.policykit.exec.path">/usr/share/pardus/pardus-certificate-manager/src/system/system_cert_admin.py</annotate>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/pardus-certificate-manager/system_cert_admin.py</annotate>
   </action>
 
 </policyconfig>

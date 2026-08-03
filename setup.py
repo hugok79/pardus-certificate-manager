@@ -64,17 +64,23 @@ data_files = [
         [
             "src/system/__init__.py",
             "src/system/certificate_info.py",
-            "src/system/system_cert_admin.py",
             "src/system/system_cert_store.py",
         ],
     ),
-    ("/usr/share/pardus/pardus-certificate-manager/data",
+    (
+        "/usr/libexec/pardus-certificate-manager",
+        ["src/system/system_cert_admin.py"],
+    ),
+    (
+        "/usr/share/pardus/pardus-certificate-manager/data",
         ["data/pardus-certificate-manager.svg"]
     ),
-    ("/usr/share/polkit-1/actions",
+    (
+        "/usr/share/polkit-1/actions",
         ["data/tr.org.pardus.pkexec.pardus-certificate-manager.policy"]
     ),
-    ("/usr/share/icons/hicolor/scalable/apps/",
+    (
+        "/usr/share/icons/hicolor/scalable/apps/",
         ["data/pardus-certificate-manager.svg"]
     )
 ] + create_mo_files()

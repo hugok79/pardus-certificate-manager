@@ -35,6 +35,9 @@ def main(argv):
         dest = _destination(argv[3])
         if dest.exists():
             sys.exit(f"certificate already exists: {dest.name}")
+        data = Path(argv[2]).read_text(errors="replace")
+        if data.count("-----BEGIN CERTIFICATE-----") != 1:
+            sys.exit("expected exactly one PEM certificate")
         shutil.copyfile(argv[2], dest)
         os.chmod(dest, 0o644)
         subprocess.run(["update-ca-certificates"], check=True)

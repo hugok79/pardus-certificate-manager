@@ -9,7 +9,7 @@ from system.certificate_info import fingerprint_sha256
 
 SYSTEM_CERT_DIR = Path("/etc/ssl/certs")
 LOCAL_CA_DIR = Path("/usr/local/share/ca-certificates")
-_HELPER = Path(__file__).resolve().parent / "system_cert_admin.py"
+_HELPER = Path("/usr/libexec/pardus-certificate-manager/system_cert_admin.py")
 
 
 @dataclass(frozen=True)
