@@ -80,7 +80,10 @@ def install_certificate(source_path):
     Install a PEM cert into the system trust store
     """
     source = Path(source_path)
-    name = source.stem + ".crt"
+    cert = load_certificate(source)
+    if cert is None:
+        return False
+    name = fingerprint_sha256(cert) + ".crt"
     result = subprocess.run(
         ["pkexec", str(_HELPER), "install", str(source), name],
         capture_output=True, text=True, check=False,
