@@ -12,7 +12,6 @@ refreshes the trust store.
 
 import os
 import re
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -35,10 +34,10 @@ def main(argv):
         dest = _destination(argv[3])
         if dest.exists():
             sys.exit(f"certificate already exists: {dest.name}")
-        data = Path(argv[2]).read_text(errors="replace")
-        if data.count("-----BEGIN CERTIFICATE-----") != 1:
+        data = Path(argv[2]).read_bytes()
+        if data.count(b"-----BEGIN CERTIFICATE-----") != 1:
             sys.exit("expected exactly one PEM certificate")
-        shutil.copyfile(argv[2], dest)
+        dest.write_bytes(data)
         os.chmod(dest, 0o644)
         subprocess.run(["update-ca-certificates"], check=True)
     # system_cert_admin.py - remove - destination.crt
