@@ -9,11 +9,11 @@
     <property name="type-hint">dialog</property>
     <property name="program-name">Pardus Certificate Manager</property>
     <property name="version">0.1.0</property>
-    <property name="copyright" translatable="yes">© TÜBİTAK BİLGEM</property>
+    <property name="copyright">© TÜBİTAK BİLGEM</property>
     <property name="comments" translatable="yes">System certificate manager for Pardus</property>
     <property name="website">https://github.com/pardus/pardus-certificate-manager</property>
     <property name="authors">Emel Öztürk</property>
-    <property name="translator-credits" translatable="yes">Emel Öztürk</property>
+    <property name="translator-credits">Emel Öztürk</property>
     <property name="logo-icon-name">txt</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
@@ -426,7 +426,6 @@
   <object class="GtkFileChooserDialog" id="import_chooser">
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Select Certificate</property>
-    <property name="use-header-bar">0</property>
     <property name="modal">True</property>
     <property name="window-position">center-on-parent</property>
     <property name="type-hint">dialog</property>
@@ -513,7 +512,6 @@
         <property name="orientation">vertical</property>
         <child>
           <object class="GtkButton" id="menu_settings">
-            <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="relief">none</property>
@@ -557,7 +555,6 @@
         </child>
         <child>
           <object class="GtkSeparator" id="popover_seperator">
-            <property name="visible">True</property>
             <property name="can-focus">False</property>
           </object>
           <packing>

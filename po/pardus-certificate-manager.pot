@@ -1,0 +1,277 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the pardus-certificate-manager package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pardus-certificate-manager 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-29 13:53+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ui/MainWindow.glade:13
+msgid "System certificate manager for Pardus"
+msgstr ""
+
+#: ui/MainWindow.glade:47
+msgid "Certificate"
+msgstr ""
+
+#: ui/MainWindow.glade:66 ui/MainWindow.glade:444 src/MainWindow.py:401
+msgid "Cancel"
+msgstr ""
+
+#: ui/MainWindow.glade:80
+msgid "Install"
+msgstr ""
+
+#: ui/MainWindow.glade:125
+msgid "File"
+msgstr ""
+
+#: ui/MainWindow.glade:154
+msgid "Subject"
+msgstr ""
+
+#: ui/MainWindow.glade:183
+msgid "Issuer"
+msgstr ""
+
+#: ui/MainWindow.glade:212
+msgid "Valid from"
+msgstr ""
+
+#: ui/MainWindow.glade:240
+msgid "Valid until"
+msgstr ""
+
+#: ui/MainWindow.glade:268
+msgid "Serial"
+msgstr ""
+
+#: ui/MainWindow.glade:297
+msgid "Fingerprint (SHA-256)"
+msgstr ""
+
+#: ui/MainWindow.glade:326
+msgid "CA certificate"
+msgstr ""
+
+#: ui/MainWindow.glade:354
+msgid "Status"
+msgstr ""
+
+#: ui/MainWindow.glade:428
+msgid "Select Certificate"
+msgstr ""
+
+#: ui/MainWindow.glade:458
+msgid "Open"
+msgstr ""
+
+#: ui/MainWindow.glade:539
+msgid "Settings"
+msgstr ""
+
+#: ui/MainWindow.glade:593
+msgid "About"
+msgstr ""
+
+#: ui/MainWindow.glade:615
+msgid "Certificate Manager"
+msgstr ""
+
+#: ui/MainWindow.glade:632
+msgid "Search certificates"
+msgstr ""
+
+#: ui/MainWindow.glade:681
+msgid "Add"
+msgstr ""
+
+#: ui/MainWindow.glade:685
+msgid "Import a certificate"
+msgstr ""
+
+#: ui/MainWindow.glade:698 ui/MainWindow.glade:872
+msgid "Delete"
+msgstr ""
+
+#: ui/MainWindow.glade:703
+msgid "Delete selected certificate"
+msgstr ""
+
+#: ui/MainWindow.glade:745
+msgid "System"
+msgstr ""
+
+#: ui/MainWindow.glade:776
+msgid "Profile"
+msgstr ""
+
+#: ui/MainWindow.glade:840
+msgid "Import"
+msgstr ""
+
+#: ui/MainWindow.glade:844
+msgid "Import a certificate into the selected profile"
+msgstr ""
+
+#: ui/MainWindow.glade:857
+msgid "Export"
+msgstr ""
+
+#: ui/MainWindow.glade:862
+msgid "Export the selected certificate to a file"
+msgstr ""
+
+#: ui/MainWindow.glade:877
+msgid "Delete the selected certificate from the profile"
+msgstr ""
+
+#: ui/MainWindow.glade:922
+msgid "Browser"
+msgstr ""
+
+#: ui/MainWindow.glade:942
+msgid "Pardus Certificate Manager"
+msgstr ""
+
+#: ui/MainWindow.glade:967
+msgid "Refresh list"
+msgstr ""
+
+#: src/MainWindow.py:162 src/MainWindow.py:349
+msgid "Could not read certificate"
+msgstr ""
+
+#: src/MainWindow.py:163 src/MainWindow.py:350
+msgid "'{}' is not a valid PEM certificate."
+msgstr ""
+
+#: src/MainWindow.py:173
+msgid "Certificate installed"
+msgstr ""
+
+#: src/MainWindow.py:174
+msgid "'{}' was added to the system trust store."
+msgstr ""
+
+#: src/MainWindow.py:180
+msgid "Install failed"
+msgstr ""
+
+#: src/MainWindow.py:181
+msgid "Could not install '{}'."
+msgstr ""
+
+#: src/MainWindow.py:201
+msgid "Yes"
+msgstr ""
+
+#: src/MainWindow.py:201
+msgid "No"
+msgstr ""
+
+#: src/MainWindow.py:212
+msgid "This certificate has expired."
+msgstr ""
+
+#: src/MainWindow.py:214
+msgid "This certificate is not valid yet."
+msgstr ""
+
+#: src/MainWindow.py:217
+msgid ""
+"Self-signed root CA. Trusting it means trusting every certificate it signs."
+msgstr ""
+
+#: src/MainWindow.py:221
+msgid "This is not a CA certificate."
+msgstr ""
+
+#: src/MainWindow.py:283 src/MainWindow.py:432
+msgid "Delete certificate?"
+msgstr ""
+
+#: src/MainWindow.py:284
+msgid "'{}' will be removed from the system trust store."
+msgstr ""
+
+#: src/MainWindow.py:295 src/MainWindow.py:444
+msgid "Delete failed"
+msgstr ""
+
+#: src/MainWindow.py:296 src/MainWindow.py:445
+msgid "Could not delete '{}'."
+msgstr ""
+
+#: src/MainWindow.py:356
+msgid "Not a CA certificate"
+msgstr ""
+
+#: src/MainWindow.py:357
+msgid "Only CA certificates can be added to the browser trust store."
+msgstr ""
+
+#: src/MainWindow.py:369
+msgid "Certificate already exists"
+msgstr ""
+
+#: src/MainWindow.py:370
+msgid "'{}' is already in this profile."
+msgstr ""
+
+#: src/MainWindow.py:377
+msgid "Certificate added"
+msgstr ""
+
+#: src/MainWindow.py:378
+msgid "'{}' was added to {}."
+msgstr ""
+
+#: src/MainWindow.py:382
+msgid "Import failed"
+msgstr ""
+
+#: src/MainWindow.py:383
+msgid "Could not import '{}'."
+msgstr ""
+
+#: src/MainWindow.py:392 src/MainWindow.py:418
+msgid "Export failed"
+msgstr ""
+
+#: src/MainWindow.py:392
+msgid "Could not read the certificate."
+msgstr ""
+
+#: src/MainWindow.py:396
+msgid "Export Certificate"
+msgstr ""
+
+#: src/MainWindow.py:402
+msgid "Save"
+msgstr ""
+
+#: src/MainWindow.py:422
+msgid "Certificate exported"
+msgstr ""
+
+#: src/MainWindow.py:423
+msgid "Saved to {}."
+msgstr ""
+
+#: src/MainWindow.py:433
+msgid ""
+"'{}' will be removed from {}. Websites signed by it will no longer be "
+"trusted by this browser."
+msgstr ""

@@ -1,21 +1,32 @@
 """
 Browser certificate store access (Firefox & Chrome/Chromium)
 
-Both browsers use NSS dbs on Linux, underlyingoperations
+Both browsers use NSS dbs on Linux, underlying operations
 (list/import/export/delete via certutil) are identical.
 Only the db *location* differs:
 
   - Firefox: one cert9.db per profile, discovered via profiles.ini
   - Chrome/Chromium: one shared cert db at ~/.pki/nssdb, no profiles
+
+A browser is only listed when it is installed.
 """
 
 import configparser
+import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
 FIREFOX_CONFIG_DIR = Path.home() / ".mozilla" / "firefox"
+FIREFOX_COMMANDS = ("firefox", "firefox-esr")
+
 CHROME_NSSDB_PATH = Path.home() / ".pki" / "nssdb"
+CHROME_COMMANDS = (
+    ("google-chrome", "Chrome"),
+    ("google-chrome-stable", "Chrome"),
+    ("chromium", "Chromium"),
+    ("chromium-browser", "Chromium"),
+)
 
 
 @dataclass(frozen=True)
@@ -31,9 +42,37 @@ class BrowserCertificate:
     profile: BrowserProfile
 
 
+def _command_exists(command):
+    return shutil.which(command) is not None
+
+
+def _is_nss_db(path):
+    """
+    A directory is a usable NSS db only if it holds cert9.db
+    """
+    return (path / "cert9.db").is_file()
+
+
+def _firefox_installed():
+    return any(_command_exists(cmd) for cmd in FIREFOX_COMMANDS)
+
+
+def _chrome_label():
+    """
+    Return label if chrome/chromium is installed
+    """
+    for command, label in CHROME_COMMANDS:
+        if _command_exists(command):
+            return label
+    return None
+
+
 def list_firefox_profiles():
+    if not _firefox_installed():
+        return []
+
     ini_path = FIREFOX_CONFIG_DIR / "profiles.ini"
-    if not ini_path.exists():
+    if not ini_path.is_file():
         return []
 
     config = configparser.ConfigParser()
@@ -49,15 +88,16 @@ def list_firefox_profiles():
         name = config[section].get("Name", path)
         is_relative = config[section].get("IsRelative", "1") == "1"
         db_path = (FIREFOX_CONFIG_DIR / path) if is_relative else Path(path)
-        if db_path.exists():
+        if _is_nss_db(db_path):
             profiles.append(BrowserProfile("firefox", f"Firefox — {name}", db_path))
     return profiles
 
 
 def list_chrome_profiles():
-    if not CHROME_NSSDB_PATH.exists():
+    label = _chrome_label()
+    if label is None or not _is_nss_db(CHROME_NSSDB_PATH):
         return []
-    return [BrowserProfile("chrome", "Chrome", CHROME_NSSDB_PATH)]
+    return [BrowserProfile("chrome", label, CHROME_NSSDB_PATH)]
 
 
 def list_profiles():

@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with python3 --buildsystem=pybuild
+
+execute_after_dh_fixperms:
+	chmod 0755 debian/pardus-certificate-manager/usr/libexec/pardus-certificate-manager/system_cert_admin.py

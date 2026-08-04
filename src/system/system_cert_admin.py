@@ -10,17 +10,19 @@ refreshes the trust store.
     system_cert_admin.py remove  <name.crt>
 """
 
-import shutil
+import os
+import re
 import subprocess
 import sys
 from pathlib import Path
 
 LOCAL_CA_DIR = Path("/usr/local/share/ca-certificates")
+_NAME_RE = re.compile(r"^[A-Za-z0-9._-]+\.crt$")
 
 
 def _destination(name):
     safe = Path(name).name
-    if not safe.endswith(".crt"):
+    if not _NAME_RE.fullmatch(safe):
         sys.exit(f"invalid certificate name: {name}")
     return LOCAL_CA_DIR / safe
 
@@ -29,7 +31,14 @@ def main(argv):
     # system_cert_admin.py - install - source.pem - destination.crt
     if len(argv) == 4 and argv[1] == "install":
         LOCAL_CA_DIR.mkdir(parents=True, exist_ok=True)
-        shutil.copy(argv[2], _destination(argv[3]))
+        dest = _destination(argv[3])
+        if dest.exists():
+            sys.exit(f"certificate already exists: {dest.name}")
+        data = Path(argv[2]).read_bytes()
+        if data.count(b"-----BEGIN CERTIFICATE-----") != 1:
+            sys.exit("expected exactly one PEM certificate")
+        dest.write_bytes(data)
+        os.chmod(dest, 0o644)
         subprocess.run(["update-ca-certificates"], check=True)
     # system_cert_admin.py - remove - destination.crt
     elif len(argv) == 3 and argv[1] == "remove":

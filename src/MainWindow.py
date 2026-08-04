@@ -25,6 +25,7 @@ _ = locale.gettext
 class MainWindow:
     def __init__(self, application):
         self.builder = Gtk.Builder()
+        self.builder.set_translation_domain("pardus-certificate-manager")
 
         # Import UI file
         glade_file = (
@@ -54,10 +55,13 @@ class MainWindow:
         self.refresh_button = self.builder.get_object("refresh_button")
         self.menu_button = self.builder.get_object("menu_button")
         self.menu_about = self.builder.get_object("menu_about")
-        self.menu_settings = self.builder.get_object("menu_settings")
+        # self.menu_settings = self.builder.get_object("menu_settings")
 
         # Certificate list
         self.cert_listbox = self.builder.get_object("cert_listbox")
+
+        # Search entry
+        self.system_search = self.builder.get_object("system_search")
 
         # Popover
         self.menu_popover = self.builder.get_object("menu_popover")
@@ -91,9 +95,11 @@ class MainWindow:
         self.add_button.connect("clicked", self.on_add_button_clicked)
         self.delete_button.connect("clicked", self.on_delete_button_clicked)
         self.cert_listbox.connect("row-selected", self.on_system_cert_selected)
+        self.cert_listbox.set_filter_func(self.filter_system_cert_row)
+        self.system_search.connect("search-changed", self.on_system_search_changed)
         self.refresh_button.connect("clicked", self.on_refresh_button_clicked)
         self.menu_about.connect("clicked", self.on_menu_about_clicked)
-        self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
+        # self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
 
         # Browser page elements & signals
         self.browser_combo = self.builder.get_object("browser_combo")
@@ -147,9 +153,19 @@ class MainWindow:
         row.cert_item = item
         return row
 
+    def filter_system_cert_row(self, row):
+        query = self.system_search.get_text().strip().casefold()
+        if not query:
+            return True
+        return query in row.cert_item.name.casefold()
+
     # ------------------------------------------------------------------ #
     # Signal handlers
     # ------------------------------------------------------------------ #
+
+    def on_system_search_changed(self, entry):
+        self.cert_listbox.unselect_all()
+        self.cert_listbox.invalidate_filter()
 
     def on_add_button_clicked(self, button):
         path = self.run_import_chooser()
@@ -453,5 +469,5 @@ class MainWindow:
         self.about_dialog.run()
         self.about_dialog.hide()
 
-    def on_menu_settings_clicked(self, button):
-        print("Settings button clicked")
+    # def on_menu_settings_clicked(self, button):
+    #       print("Settings button clicked")
