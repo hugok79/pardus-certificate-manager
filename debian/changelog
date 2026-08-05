@@ -1,3 +1,16 @@
+pardus-certificate-manager (1.0.0) unstable; urgency=medium
+
+  * Filter system certs by name - #PARDUS-1740
+  * Add policykit policy for system cert admin - #PARDUS-1740
+  * Fix installed CA file permissions after copy - #PARDUS-1740
+  * Improve system CA install helper - Reject bad/duplicate names and use fingerprint .crt paths - #PARDUS-1740
+  * Install CA helper under libexec and reject duplicates - #PARDUS-1740
+  * Read CA source once before writing to the trust store - #PARDUS-1740
+  * Add unit tests for browsers and system certs - #PARDUS-1740
+  * Update README
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Wed, 05 Aug 2026 10:42:23 +0300
+
 pardus-certificate-manager (0.1.0) unstable; urgency=medium
 
   * Add translations - Add TR translation for the app - #PARDUS-1740
