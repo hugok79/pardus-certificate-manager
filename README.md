@@ -61,9 +61,7 @@ Before installing Pardus Certificate Manager, ensure your system meets the follo
 
 ### Usage Guide
 
-<p align="center">
-  <img src="screenshots/main.png" alt="Main Window" width="400"/>
-</p>
+<img src="screenshots/main.png" alt="Main Window" width="400"/>
 
  ##### Managing System Certificates
 

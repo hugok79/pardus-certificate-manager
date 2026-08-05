@@ -61,9 +61,7 @@ Pardus Sertifika Yöneticisi uygulamasını kurmadan önce, sisteminizin aşağ�
 
 ### Kullanım Kılavuzu
 
-<p align="center">
-  <img src="screenshots/main.png" alt="Ana Pencere" width="400"/>
-</p>
+<img src="screenshots/main.png" alt="Ana Pencere" width="400"/>
 
  ##### Sistem Sertifikalarını Yönetme
 
