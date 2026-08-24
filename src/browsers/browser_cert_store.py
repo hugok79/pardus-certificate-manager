@@ -95,7 +95,7 @@ def list_firefox_profiles():
 
 def list_chrome_profiles():
     label = _chrome_label()
-    if label is None or not _is_nss_db(CHROME_NSSDB_PATH):
+    if label is None:
         return []
     return [BrowserProfile("chrome", label, CHROME_NSSDB_PATH)]
 
@@ -160,6 +160,9 @@ def install_certificate(profile, pem_path, nickname, trust="C,,"):
     """
     Install a certificate into profile db
     """
+    # Create the db if missing
+    # 0700 so only this user can read it
+    profile.db_path.mkdir(parents=True, exist_ok=True, mode=0o700)
     result = _run_certutil(
         ["-A", "-n", nickname, "-t", trust, "-i",
          str(pem_path), "-d", f"sql:{profile.db_path}"],
