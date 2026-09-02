@@ -14,7 +14,7 @@
     <property name="website">https://github.com/pardus/pardus-certificate-manager</property>
     <property name="authors">Emel Öztürk</property>
     <property name="translator-credits">Emel Öztürk</property>
-    <property name="logo-icon-name">txt</property>
+    <property name="logo-icon-name">pardus-certificate-manager</property>
     <property name="license-type">gpl-3-0</property>
     <child internal-child="vbox">
       <object class="GtkBox">
