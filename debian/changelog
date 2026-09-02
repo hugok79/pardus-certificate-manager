@@ -1,3 +1,9 @@
+pardus-certificate-manager (1.0.2) unstable; urgency=medium
+
+  * Add new icon for app & about
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Wed, 02 Sep 2026 17:59:46 +0300
+
 pardus-certificate-manager (1.0.1) unstable; urgency=medium
 
   * List Chrome even if ~/.pki/nssdb does not exist yet - Now we can see chrome on browser combo even on a fresh chrome install - #PARDUS-1776
