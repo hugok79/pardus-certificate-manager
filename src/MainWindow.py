@@ -70,6 +70,16 @@ class MainWindow:
         self.about_dialog = self.builder.get_object("about_dialog")
         self.about_dialog.set_transient_for(self.window)
 
+        # Set version if it cannot be retrieved from __version__ file,
+        # then use MainWindow.glade file
+        try:
+            version = open(
+                os.path.dirname(os.path.abspath(__file__)) + "/__version__"
+                ).readline()
+            self.about_dialog.set_version(version)
+        except:
+            pass
+
         # Import file chooser
         self.import_chooser = self.builder.get_object("import_chooser")
         self.import_chooser.set_transient_for(self.window)
