@@ -955,9 +955,6 @@
               </object>
             </child>
           </object>
-          <packing>
-            <property name="pack-type">end</property>
-          </packing>
         </child>
         <child>
           <object class="GtkButton" id="refresh_button">
