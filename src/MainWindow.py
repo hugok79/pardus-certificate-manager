@@ -53,8 +53,7 @@ class MainWindow:
         self.add_button = self.builder.get_object("add_button")
         self.delete_button = self.builder.get_object("delete_button")
         self.refresh_button = self.builder.get_object("refresh_button")
-        self.menu_button = self.builder.get_object("menu_button")
-        self.menu_about = self.builder.get_object("menu_about")
+        self.menu_about_button = self.builder.get_object("menu_about_button")
         # self.menu_settings = self.builder.get_object("menu_settings")
 
         # Certificate list
@@ -108,8 +107,7 @@ class MainWindow:
         self.cert_listbox.set_filter_func(self.filter_system_cert_row)
         self.system_search.connect("search-changed", self.on_system_search_changed)
         self.refresh_button.connect("clicked", self.on_refresh_button_clicked)
-        self.menu_about.connect("clicked", self.on_menu_about_clicked)
-        # self.menu_settings.connect("clicked", self.on_menu_settings_clicked)
+        self.menu_about_button.connect("clicked", self.on_menu_about_clicked)
 
         # Browser page elements & signals
         self.browser_combo = self.builder.get_object("browser_combo")
@@ -478,6 +476,3 @@ class MainWindow:
     def on_menu_about_clicked(self, button):
         self.about_dialog.run()
         self.about_dialog.hide()
-
-    # def on_menu_settings_clicked(self, button):
-    #       print("Settings button clicked")
