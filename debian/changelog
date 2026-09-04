@@ -1,3 +1,11 @@
+pardus-certificate-manager (1.0.3) unstable; urgency=medium
+
+  * Change menu/about button side - #PARDUS-1809
+  * Add version automatically - #PARDUS-1809
+  * Change menu button -> about - #PARDUS-1809
+
+ -- Emel Öztürk <emel.ozturk@pardus.org.tr>  Fri, 04 Sep 2026 17:09:22 +0300
+
 pardus-certificate-manager (1.0.2) unstable; urgency=medium
 
   * Add new icon for app & about
