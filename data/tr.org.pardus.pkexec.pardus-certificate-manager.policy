@@ -9,8 +9,10 @@
 
   <action id="tr.org.pardus.certificate-manager.admin">
     <description>Modify the system certificate trust store</description>
+    <description xml:lang="pt">Modificar o repositório de certificados fidedignos do sistema</description>
     <description xml:lang="tr">Sistem sertifika güven deposunu değiştir</description>
     <message>Authentication is required to manage system CA certificates.</message>
+    <message xml:lang="pt">É necessária a autenticação para gerir os certificados da CA do sistema.</message>
     <message xml:lang="tr">Sistem CA sertifikalarını yönetmek için kimlik doğrulaması gerekiyor.</message>
     <icon_name>application-certificate</icon_name>
     <defaults>

@@ -1,7 +1,9 @@
 [Desktop Entry]
 Name=Pardus Certificate Manager
+Name[pt]=Gestor de Certificados Pardus
 Name[tr]=Pardus Sertifika Yöneticisi
 Comment=Manage trusted certificates for the system and browsers
+Comment[pt]=Gerir certificados fidedignos para o sistema e os navegadores
 Comment[tr]=Sistem ve tarayıcılar için güvenilir sertifikaları yönetin
 Icon=pardus-certificate-manager
 Exec=pardus-certificate-manager
@@ -11,4 +13,5 @@ Categories=GTK;System;Security;X-Pardus-Apps;
 StartupNotify=true
 StartupWMClass=tr.org.pardus.certificate-manager
 Keywords=certificate;CA;SSL;TLS;trust;security;
+Keywords[pt]=certificado;CA;SSL;TLS;fidedigno;segurança;
 Keywords[tr]=sertifika;CA;SSL;TLS;güven;güvenlik;
